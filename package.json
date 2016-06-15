@@ -1,0 +1,16 @@
+{
+  "name": "SMS-server",
+  "version": "0.0.0",
+  "description": "Handles SMS messages ",
+  "main": "server/server.js",
+  "repository": "",
+  "author": "",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "express": "~3.2.4",
+    "firebase": "~2.3.1",
+    "mailgun-js": "~0.7.6",
+    "socket.io": "~0.9.14",
+    "twilio": "~2.5.2"
+  }
+}

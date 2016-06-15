@@ -7,5 +7,6 @@
        'firebase',
       //custom modules
       'app.landing',
-      'app.waitList'])
+      'app.waitList',
+    'app.auth'])
 })()

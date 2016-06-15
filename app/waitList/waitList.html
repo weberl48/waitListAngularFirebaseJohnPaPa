@@ -31,7 +31,7 @@
     </thead>
     <tr ng-repeat="party in vm.parties">
         <td>
-            <!-- TODO: Checkbox ot display party.done -->
+          <input ng-model="party.done" type="checkbox" ng-change="vm.toggleDone(party)">
         </td>
         <td>
             <div>
