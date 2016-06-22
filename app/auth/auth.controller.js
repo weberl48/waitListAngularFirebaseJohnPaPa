@@ -18,8 +18,8 @@
 
         vm.register = register;
         vm.logIn = logIn;
-        vm.logOut = logOut;
-        vm.isLoggedIn = authService.isLoggedIn
+        // vm.logOut = logOut;
+        // vm.isLoggedIn = authService.isLoggedIn
 
         function register(user) {
             return authService.register(user)
@@ -44,9 +44,9 @@
 
         }
 
-        function logOut() {
-            authService.logOut();
-            $location.path('/');
-        }
+        // function logOut() {
+        //     authService.logOut();
+        //     $location.path('/');
+        // }
     }
 })();

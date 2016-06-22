@@ -11,6 +11,7 @@ firebaseDataService.$inject=['FIREBASE_URL']
 
     var service = {
       root: root,
+      users: root.child('users'),
       textMessages: root.child('textMessages')
     }
     return service
