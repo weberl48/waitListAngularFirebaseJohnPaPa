@@ -3,13 +3,13 @@
     angular.module('app.auth')
         .controller('AuthController', AuthController);
 
-    AuthController.$inject = ['$location','$firebaseAuth','FIREBASE_URL'];
+    AuthController.$inject = ['$location', 'authService'];
 
-    function AuthController($location, $firebaseAuth, FIREBASE_URL) {
+    function AuthController($location, authService) {
         var vm = this;
 
-        var firebaseReference = new Firebase(FIREBASE_URL)
-        var firebaseAuthObject = $firebaseAuth(firebaseReference)
+        // var firebaseReference = new Firebase(FIREBASE_URL)
+        // var firebaseAuthObject = $firebaseAuth(firebaseReference)
 
         vm.user = {
             email: "",
@@ -19,9 +19,10 @@
         vm.register = register;
         vm.logIn = logIn;
         vm.logOut = logOut;
+        vm.isLoggedIn = authService.isLoggedIn
 
         function register(user) {
-            return firebaseAuthObject.$createUser(user)
+            return authService.register(user)
                 .then(function() {
                     vm.login(user);
                 })
@@ -32,7 +33,7 @@
         }
 
         function logIn(user) {
-            return firebaseAuthObject.$authWithPassword(user)
+            return authService.logIn(user)
                 .then(function(loggedInUser) {
                     console.log(loggedInUser);
                     $location.path('/')
@@ -44,8 +45,8 @@
         }
 
         function logOut() {
-          firebaseAuthObject.$unauth();
-          $location.path('/');
+            authService.logOut();
+            $location.path('/');
         }
     }
 })();

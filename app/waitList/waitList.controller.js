@@ -1,18 +1,20 @@
 (function() {
     'use strict'
     angular.module('app.waitList').controller('WaitListController', WaitListController);
-    WaitListController.$inject = [ "firebaseDataService", "partyService"]
+    WaitListController.$inject = ['textMessageService', "partyService", 'user']
 
-    function WaitListController(firebaseDataService, partyService) {
+    function WaitListController(textMessageService, partyService, user) {
         var vm = this;
 
         // var fireParties = new Firebase(FIREBASE_URL + 'parties')
         // var fireTextMessages = new Firebase(FIREBASE_URL + 'textMessages')
 
+        //log user to console
+        console.log(user);
 
         //methods
         vm.newParty = new partyService.Party()
-        // vm.parties = $firebaseArray(fireParties)
+            // vm.parties = $firebaseArray(fireParties)
         vm.parties = partyService.parties
         vm.addParty = addParty
         vm.removeParty = removeParty
@@ -29,15 +31,16 @@
         }
 
         function sendTextMessage(party) {
-            var newTextMessage = {
-                phoneNumber: party.phone,
-                size: party.size,
-                name: party.name,
-            }
-            // fireTextMessages.push(newTextMessage)
-            firebaseDataService.textMessages.push(newTextMessage);
-            party.notified = true;
-            vm.parties.$save(party);
+            sendTextMessage.sendTextMessage(party, vm.parties)
+                // var newTextMessage = {
+                //     phoneNumber: party.phone,
+                //     size: party.size,
+                //     name: party.name,
+                // }
+                // // fireTextMessages.push(newTextMessage)
+                // firebaseDataService.textMessages.push(newTextMessage);
+                // party.notified = true;
+                // vm.parties.$save(party);
         }
 
         function toggleDone(party) {
