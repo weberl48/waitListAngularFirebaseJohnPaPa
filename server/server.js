@@ -8,8 +8,8 @@ var twilioNumber = process.env.TWILLIO_NUMBER
 var firebaseSecret = process.env.FIREBASE_SECRET
 var firebaseURL = process.env.FIREBASE_URL
 // // Mailgun info.
-// var mailgunApiKey = '';
-// var mailgunDomain = '';
+var mailgunApiKey = process.env.MAILGUN_KEY
+var mailgunDomain = process.env.MAILGUN_DOMAIN
 
 // Create references for libraries.
 var express = require('express');
@@ -17,7 +17,7 @@ var http = require('http');
 var Firebase = require('firebase');
 var twilio = require('twilio');
 
-// var mailgun = require('mailgun-js')({apiKey: mailgunApiKey, domain: mailgunDomain});
+var mailgun = require('mailgun-js')({apiKey: mailgunApiKey, domain: mailgunDomain});
 
 // Express server setup.
 var router = express();
@@ -53,25 +53,25 @@ textMessagesRef.on("child_added", function(snapshot) {
   });
 });
 
-// // Create a reference to emails.
-// var emailsRef = firebaseRef.child('emails');
+// Create a reference to emails.
+var emailsRef = firebaseRef.child('emails');
 
-// // Listen for new objects pushed to emailsRef.
-// emailsRef.on("child_added", function(snapshot) {
-//   var email = snapshot.val();
-//   var emailData = {
-//     from: '<postmaster@'  + mailgunDomain + '>',
-//     to: email.emailAddress,
-//     subject: 'Welcome to Wait and Eat',
-//     text: 'Thanks for signing up for Wait and Eat!'
-//   };
-//   mailgun.messages().send(emailData, function(error, body) {
-//     console.log(body);
-//     if (error) {
-//       console.log(error);
-//     };
-//   });
-// });
+// Listen for new objects pushed to emailsRef.
+emailsRef.on("child_added", function(snapshot) {
+  var email = snapshot.val();
+  var emailData = {
+    from: '<postmaster@'  + mailgunDomain + '>',
+    to: email.emailAddress,
+    subject: 'Welcome to Wait and Eat',
+    text: 'Thanks for signing up for Wait and Eat!'
+  };
+  mailgun.messages().send(emailData, function(error, body) {
+    console.log(body);
+    if (error) {
+      console.log(error);
+    };
+  });
+});
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
   var addr = server.address();
